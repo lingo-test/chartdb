@@ -141,4 +141,38 @@ const routes: RouteObject[] = [
     },
 ];
 
-export const router = createBrowserRouter(routes);
+/**
+ * Suffix patterns of this app's own routes, anchored to the end of the
+ * pathname. Used to derive the deployment prefix (basename) when the app is
+ * served under a subpath (e.g. mounted by a preview proxy).
+ */
+const appRouteSuffixPatterns: RegExp[] = [
+    /\/diagrams\/[^/]+\/?$/,
+    /\/templates\/clone\/[^/]+\/?$/,
+    /\/templates\/tags\/[^/]+\/?$/,
+    /\/templates\/featured\/?$/,
+    /\/templates(\/[^/]*)?\/?$/,
+    /\/examples\/?$/,
+];
+
+const getBasename = (): string => {
+    if (typeof window === 'undefined') {
+        return '';
+    }
+
+    const { pathname } = window.location;
+
+    for (const pattern of appRouteSuffixPatterns) {
+        if (pattern.test(pathname)) {
+            return pathname.replace(pattern, '');
+        }
+    }
+
+    // No known route suffix: treat the whole pathname as the deployment
+    // prefix (root route served under a subpath).
+    return pathname.replace(/\/+$/, '');
+};
+
+export const router = createBrowserRouter(routes, {
+    basename: getBasename(),
+});
