@@ -6,6 +6,7 @@
 - 仅当目录中没有任何已有项目标识时：无可信服务端逻辑时默认创建 Vite + React + TypeScript + Tailwind CSS 前端应用。Supabase 本身可作为应用后端；已启用 `supabase` 时，普通 CRUD、登录认证、存储、实时订阅及 Supabase 提供的 CRUD API 使用前端 + Supabase，提到普通 CRUD API/接口不触发全栈。只有必须由可信服务端执行的自定义 API、Webhook、支付回调、定时任务、服务端密钥、私密第三方 API 等逻辑才创建全栈应用（后端默认 Node/Express，用户明确指定 Python 时才用 Python；后端固定 8000、前端固定 5173）。❌ 不生成独立后端服务（无法预览）
 - 运行时只支持镜像已预装的运行时（Node、Python）。你以普通用户身份运行，**无法** `apt-get`/`sudo` 安装系统级运行时；需要其他运行时（Go/Java 等）时，向用户说明暂不支持并建议用 Node/Python 替代
 - 依赖安装只允许使用项目级包管理器（npm/pip/uv 等），安装到项目目录内，禁止修改系统目录
+- 依赖安装命令必须以前台方式运行，禁止后台安装依赖；只有确认退出码为 0 后才能创建或修改 `.lingo/runtime.json`。依赖安装未完成或失败时，禁止创建或修改 `.lingo/runtime.json`，先修复并重新安装成功
 
 ## 运行时契约 `.lingo/runtime.json`
 
