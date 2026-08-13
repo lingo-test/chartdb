@@ -1,21 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 1,
   "projectType": "vite",
   "services": [
     {
       "name": "web",
       "role": "frontend",
       "cwd": ".",
-      "port": 8000,
-      "startCommand": "npm ci && npm run dev -- --host 0.0.0.0 --port 8000",
-      "healthCheck": {
-        "type": "http",
-        "path": "/",
-        "timeout": 10
-      },
-      "preview": true,
-      "language": "node",
-      "framework": "vite"
+      "port": 5173,
+      "startCommand": "npx vite --port 5173 --host 0.0.0.0 --strictPort",
+      "preview": true
     }
-  ]
+  ],
+  "checkCommand": "npm run build"
 }
